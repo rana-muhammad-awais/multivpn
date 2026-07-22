@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MultiVPN</string>
+
+    <!-- Status card -->
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_connecting">Connecting…</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_pick_server">Pick a country below to connect</string>
+    <string name="status_preparing">Preparing connection…</string>
+    <string name="disconnect">Disconnect</string>
+
+    <!-- Tunnel states -->
+    <string name="state_nonetwork">Waiting for a usable network…</string>
+    <string name="state_reconnecting">Reconnecting…</string>
+    <string name="state_resolve">Resolving server address…</string>
+    <string name="state_connecting">Connecting to server…</string>
+    <string name="state_auth">Authenticating…</string>
+    <string name="state_get_config">Fetching configuration…</string>
+    <string name="state_assign_ip">Assigning IP address…</string>
+    <string name="state_add_routes">Setting up routes…</string>
+    <string name="state_generate">Generating tunnel configuration…</string>
+
+    <!-- Server list -->
+    <string name="search_hint">Search country or server…</string>
+    <string name="fastest">Fastest</string>
+    <string name="no_servers">No servers found</string>
+    <string name="servers_loaded">%1$d servers in %2$d countries (live from VPN Gate)</string>
+    <string name="showing_cached">Showing %1$d cached servers, refreshing…</string>
+    <string name="server_details">Ping %1$s · %2$s Mbps · %3$d users</string>
+    <plurals name="server_count">
+        <item quantity="one">%d server</item>
+        <item quantity="other">%d servers</item>
+    </plurals>
+
+    <!-- Connect dialog -->
+    <string name="connect_title">Connect to VPN</string>
+    <string name="connect_message">Connect to %1$s?\n\nThis is a free volunteer-run relay. Speeds and uptime vary.</string>
+    <string name="connect">Connect</string>
+
+    <!-- Notification channels (required by the embedded OpenVPN engine) -->
+    <string name="channel_background">VPN background</string>
+    <string name="channel_background_desc">Quiet ongoing VPN connection notification</string>
+    <string name="channel_status">VPN status</string>
+    <string name="channel_status_desc">Connection status changes</string>
+    <string name="channel_userreq">VPN requests</string>
+    <string name="channel_userreq_desc">Requests that need your attention</string>
+
+    <!-- Errors -->
+    <string name="err_fetch">Could not refresh the server list. Check your internet connection and pull down to retry.</string>
+    <string name="err_fetch_empty">Could not load servers.\nPull down to retry.</string>
+    <string name="err_bad_config">This server\'s configuration could not be used. Try another server.</string>
+    <string name="err_vpn_permission_denied">Android VPN permission was denied.</string>
+    <string name="err_auth_failed">Authentication failed. The server may be offline — try another one.</string>
+    <string name="err_no_vpn_support">This device does not support VPN connections.</string>
+</resources>

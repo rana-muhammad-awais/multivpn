@@ -1,0 +1,68 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.multivpn.app'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.multivpn.app"
+        minSdk 24
+        // targetSdk 30: the embedded ics-openvpn 0.6.x library manifest predates
+        // Android 12's explicit android:exported requirement; targeting 31+ would
+        // fail the manifest merge. Sideloading is unaffected by target level.
+        targetSdk 30
+        versionCode 2
+        versionName "2.0"
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+}
+
+dependencies {
+    // Embedded OpenVPN engine as a prebuilt .aar. The CI workflow builds the
+    // ics-openvpn project ON ITS OWN (so its version catalog resolves), then
+    // copies the resulting main-*-release.aar into app/libs/openvpn.aar.
+    // The native OpenVPN/OpenSSL .so libraries ride inside that .aar, so the
+    // final APK is fully self-contained — one app, no JitPack, no second install.
+    implementation(name: 'openvpn', ext: 'aar')
+
+    // The engine's own runtime dependencies (it needs these transitively; when
+    // consuming a flat .aar Gradle does not pull them in automatically).
+    implementation 'androidx.annotation:annotation:1.7.1'
+    implementation 'androidx.security:security-crypto:1.1.0-alpha06'
+
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+}

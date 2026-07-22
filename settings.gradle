@@ -1,0 +1,21 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    // PREFER_SETTINGS (not FAIL_ON_PROJECT_REPOS) so the local 'libs' flatDir
+    // holding the prebuilt OpenVPN .aar is allowed.
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        // The OpenVPN engine .aar, built separately by the CI workflow from the
+        // ics-openvpn project itself, is dropped into app/libs as a flat file.
+        flatDir { dirs 'app/libs' }
+    }
+}
+rootProject.name = "MultiVPN"
+include ':app'
