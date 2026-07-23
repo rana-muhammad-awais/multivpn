@@ -45,7 +45,7 @@ jobs:
           cd ics-openvpn
           chmod +x gradlew
           # Build only the engine library module in release form.
-          ./gradlew :main:assembleRelease --no-daemon --stacktrace
+          ./gradlew :main:assembleDebug --no-daemon --stacktrace
           echo "---- produced AARs ----"
           find main/build/outputs/aar -name '*.aar'
 
@@ -54,7 +54,7 @@ jobs:
         run: |
           set -e
           mkdir -p app/libs
-          AAR=$(find ics-openvpn/main/build/outputs/aar -name '*release*.aar' | head -n1)
+          AAR=$(find ics-openvpn/main/build/outputs/aar -name '*debug*.aar' | head -n1)
           if [ -z "$AAR" ]; then AAR=$(find ics-openvpn/main/build/outputs/aar -name '*.aar' | head -n1); fi
           cp "$AAR" app/libs/openvpn.aar
           echo "Staged: $AAR -> app/libs/openvpn.aar"
