@@ -38,14 +38,17 @@ jobs:
       # catalog) only resolves when the engine is built as its own project,
       # not when its folder is grafted into ours.
       - name: Build OpenVPN engine .aar
+        env:
+          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m"
         run: |
           set -e
           git clone --depth 1 --branch "$ENGINE_TAG" --recurse-submodules --shallow-submodules \
             "$ENGINE_REPO" ics-openvpn
           cd ics-openvpn
+          echo "org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m" >> gradle.properties
           chmod +x gradlew
-          # Build only the engine library module in release form.
-          ./gradlew :main:assembleDebug --no-daemon --stacktrace
+          # Build only the skeleton engine library variant to prevent OutOfMemoryError
+          ./gradlew :main:assembleSkeletonOvpn23Debug --no-daemon --stacktrace
           echo "---- produced AARs ----"
           find main/build/outputs/aar -name '*.aar'
 
