@@ -22,13 +22,22 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Accept Android SDK licenses
+      - name: Set up Android SDK PATH
         run: |
-          yes | sdkmanager --licenses || true
+          ANDROID_ROOT="/usr/local/lib/android/sdk"
+          SDKMANAGER_BIN=$(find "$ANDROID_ROOT/cmdline-tools" -name "sdkmanager" 2>/dev/null | head -n1)
+          if [ -z "$SDKMANAGER_BIN" ]; then
+            echo "sdkmanager not found in $ANDROID_ROOT"
+            exit 1
+          fi
+          echo "$(dirname "$SDKMANAGER_BIN")" >> "$GITHUB_PATH"
+          echo "ANDROID_SDK_ROOT=$ANDROID_ROOT" >> "$GITHUB_ENV"
+          echo "ANDROID_HOME=$ANDROID_ROOT" >> "$GITHUB_ENV"
 
       - name: Install Android NDK + CMake + SWIG
         run: |
           set -e
+          yes | sdkmanager --licenses || true
           yes | sdkmanager "ndk;25.2.9519653" "cmake;3.22.1"
           sudo apt-get update -qq
           sudo apt-get install -y swig
